@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/user');
+const Task = require('./models/task');
 
 const app = express();
 
@@ -32,12 +33,37 @@ app.post('/add/user', (req, res) =>{
        }
    })
 });
-app.post('/add/task', (req, res) => {
-    console.log(req.body);
-    res.send({
-        status: 'success',
-    });
-})
+
+app.post('/add/task', (req, res) =>{
+    const task = {
+        title: req.body.title,
+        discription: req.body.discription,
+        status: req.body.status
+    }
+ 
+    const newTask = new Task(task);
+    newTask.save((err, data) => {
+        if(err) {
+            console.log(err);
+        } else {
+            res.json(data);
+        }
+    })
+ });
+// app.post('/add/task', (req, res) => {
+//     console.log(req.body);
+//     res.send({
+//         status: 'success',
+//     });
+// })
+
+// app.get('/add/task', async (req, res) => {
+//     const task = await Task.find();
+//     res.send({
+//         status: 'success',
+//         data: task
+//     })
+// })
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
