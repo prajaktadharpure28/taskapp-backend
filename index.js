@@ -34,6 +34,33 @@ app.post('/add/user', (req, res) =>{
    })
 });
 
+app.post('/find/user', async (req, res) => {
+    const user = await User.findOne({name: req.body.name});
+    res.send({
+        status: 'success',
+        data: user
+    })
+})
+
+app.post('/update/user', async (req, res) => {
+    const user = await User.updateOne({name: req.body.namee},
+    {$set: {namee: req.body.name, email: req.body.email}})
+   
+    if(user)
+    {
+        res.send({
+            status: 'success',
+        })
+    }
+    })
+
+ app.post('/delete/user', async(req, res) => {
+     const user = await Task.deleteOne({name: req.body.name});
+     res.send({
+         status: 'success',
+     })
+ })
+
 app.post('/add/task', (req, res) =>{
     const task = {
         title: req.body.title,
@@ -50,6 +77,33 @@ app.post('/add/task', (req, res) =>{
         }
     })
  });
+
+ app.post('/find/task', async (req, res) => {
+    const task = await Task.findOne({title: req.body.title});
+    res.send({
+        status: 'success',
+        data: task
+    })
+})
+
+app.post('/update/task', async (req, res) => {
+ const task = await Task.updateOne({title: req.body.title},
+ {$set: {title: req.body.title, discription: req.body.discription}})
+
+ if(task)
+ {
+     res.send({
+         status: 'success',
+     })
+ }
+ })
+
+ app.post('/delete/task', async(req, res) => {
+     const task = await Task.deleteOne({title: req.body.title});
+     res.send({
+         status: 'success',
+     })
+ })
 // app.post('/add/task', (req, res) => {
 //     console.log(req.body);
 //     res.send({
